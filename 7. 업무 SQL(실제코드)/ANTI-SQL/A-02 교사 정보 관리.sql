@@ -1,0 +1,73 @@
+
+-- A.02
+-- 교사 계정 관리
+
+
+-- 출력 전체 : 교사명, 주민 뒷자리, 전화번호, 강의 가능 과목
+SELECT 
+	mi.NAME AS "교사명", 
+	SUBSTR(t.SSN, -7) AS "주민번호 뒷자리", 
+	t.TEL AS "전화번호", 
+	s.SUBJECTNAME AS "강의 가능 과목"
+FROM TBLTEACHER t
+	INNER JOIN TBLPOSSIBLESUBJECT ps
+		ON t.TEACHERSEQ = ps.TEACHERSEQ
+			INNER JOIN TBLSUBJECT s
+				ON ps.SUBJECTSEQ = s.SUBJECTSEQ
+					INNER JOIN TBLMEMBERINFO mi
+						ON t.MEMBERINFOSEQ = mi.MEMBERINFOSEQ;
+					
+					
+-- 출력 특정 : 개설 과목명, 개설 과목 기간, 교재명, 강의실명, 강의 진행 여부
+SELECT
+	s.SUBJECTNAME AS "개설 과목명", 
+	ss.SUBJECTSTART AS "과목 시작 날짜", 
+	ss.SUBJECTEND AS "과목 종료 날짜", 
+	b.BOOKNAME AS "교재명", 
+	r.ROOMNAME AS "강의실명",
+	es.ENROLMENTSTATENAME AS "강의 진행 여부"
+FROM TBLMEMBERINFO mi	--멤버인포
+	INNER JOIN TBLTEACHER t	-- 교사
+		ON mi.MEMBERINFOSEQ = t.MEMBERINFOSEQ
+			INNER JOIN TBLPOSSIBLESUBJECT ps	-- 개설과목
+				ON t.TEACHERSEQ = ps.TEACHERSEQ
+					INNER JOIN TBLSUBJECT s	-- 과목
+						ON ps.SUBJECTSEQ = s.SUBJECTSEQ
+							INNER JOIN TBLBOOKLIST bl	-- 교재리스트
+								ON s.SUBJECTSEQ = bl.SUBJECTSEQ
+									INNER JOIN TBLBOOK b	-- 교재
+										ON bl.BOOKSEQ = b.BOOKSEQ
+											INNER JOIN TBLSUBJECTSCHEDULE ss	-- 과목 스케줄
+												ON ps.POSSIBLESUBJECTSEQ = ss.SUBJECTSCHEDULESEQ
+													INNER JOIN TBLOPENINGPROCEDURE op	-- 개설 과정
+														ON ss.OPENINGPROCEDURESEQ = op.OPENINGPROCEDURESEQ
+															INNER JOIN TBLROOM r	-- 강의실
+																ON op.ROOMSEQ = r.ROOMSEQ
+																	INNER JOIN TBLENROLMENT e
+																		ON op.OPENINGPROCEDURESEQ = e.OPENINGPROCEDURESEQ
+																			INNER JOIN TBLENROLMENTSTATE es
+																				ON e.ENROLMENTSTATESEQ = es.ENROLMENTSTATESEQ
+																			WHERE mi.NAME = '박정지';
+																			
+																			SELECT * FROM TBLPOSSIBLESUBJECT;
+	
+					
+-- 입력
+INSERT INTO TBLMEMBERINFO VALUES ((SELECT max(MEMBERINFOSEQ)+1 FROM TBLMEMBERINFO), '이름', '아이디');
+INSERT INTO TBLTEACHER VALUES (seqTeacher.nextVal, '주민번호', '전화번호', 멤버정보번호);
+INSERT INTO TBLPOSSIBLESUBJECT VALUES ((SELECT max(POSSIBLESUBJECTSEQ)+1 FROM TBLPOSSIBLESUBJECT), '교사번호','과목번호');
+
+
+-- 수정
+UPDATE TBLMEMBERINFO mi SET mi.NAME = pname, mi.ID = pid WHERE mi.MEMBERINFOSEQ = 멤버정보번호;
+UPDATE TBLTEACHER t SET t.SSN = pssn, t.TEL = ptel WHERE t.TEACHERSEQ = 교사번호;
+UPDATE TBLPOSSIBLESUBJECT pss SET pss.SUBJECTSEQ = psubnum WHERE pss.TEACHERSEQ = 교사번호;
+
+
+-- 삭제
+DELETE FROM TBLPOSSIBLESUBJECT WHERE TEACHERSEQ = 교사번호;
+DELETE FROM TBLTEACHER WHERE TEACHERSEQ = 교사번호;
+DELETE FROM TBLMEMBERINFO WHERE ID = 멤버아이디;
+
+
+

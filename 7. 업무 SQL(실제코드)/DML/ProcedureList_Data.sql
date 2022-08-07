@@ -1,0 +1,10 @@
+insert into tblProcedureList (procedureListSeq, procedureName) values (1,'AWS 클라우드 활용 자바 개발자 양성 과정(B)');
+insert into tblProcedureList (procedureListSeq, procedureName) values (2,'반응형 UI/UX 웹콘텐츠 개발자 양성과정A5');
+insert into tblProcedureList (procedureListSeq, procedureName) values (3,'빅데이터 플랫폼을 활용한 개발자 양성과정A1');
+insert into tblProcedureList (procedureListSeq, procedureName) values (4,'자바(JAVA)기반 공공데이터 융합 개발자 양성과정A7');
+insert into tblProcedureList (procedureListSeq, procedureName) values (5,'디지털데이터 융합 자바기반풀스택 개발자 양성 과정A');
+insert into tblProcedureList (procedureListSeq, procedureName) values (6,'공공데이터 기반 웹 애플리케이션 개발자 양성과정');
+insert into tblProcedureList (procedureListSeq, procedureName) values (7,'자바(JAVA)기반 클라우드 융합 개발자 양성과정B1');
+insert into tblProcedureList (procedureListSeq, procedureName) values (8,'스마트웹 웹애플리케이션 개발자 양성과정');
+insert into tblProcedureList (procedureListSeq, procedureName) values (9,'클라우드 융합 Full-stack 웹 개발자 양성과정');
+insert into tblProcedureList (procedureListSeq, procedureName) values (10,'공공데이터를 활용한 Springframework기반 웹 개발자 양성과정');
